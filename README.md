@@ -1,20 +1,22 @@
-### Renk Paleti ve Stiller İçin Tasarım Kuralları
+İşte aynı kurallar listesi, bu kez boyutlar `rem` cinsinden:
+
+### Renk Paleti ve Stiller İçin Tasarım Kuralları (rem ile)
 
 #### 1. **Genel Tasarım**
-   - **Font Ailesi**: Roboto
-   - **Font Boyutları**
-     - Başlıklar (H1, H2, H3): 36px, 30px, 24px
-     - Paragraflar: 16px
-     - Küçük metin (footer, açıklamalar): 12px
+   - **Font Ailesi**: Arima
+   - **Font Boyutları**:
+     - Başlıklar (H1, H2, H3): 2.25rem, 1.875rem, 1.5rem
+     - Paragraflar: 1rem
+     - Küçük metin (footer, açıklamalar): 0.75rem
    - **Letter Space**: 
-     - Başlıklar: 0.5px
-     - Paragraflar ve küçük metinler: 0.2px
+     - Başlıklar: 0.031rem
+     - Paragraflar ve küçük metinler: 0.0125rem
    - **Satır Yüksekliği (Line Height)**: 
      - Paragraflar: 1.5
      - Başlıklar: 1.2
    - **Itemlar Arası Boşluk (Margin/Padding)**: 
-     - Kartlar ve bölümler arası: 24px
-     - Metin arası: 16px
+     - Kartlar ve bölümler arası: 1.5rem
+     - Metin arası: 1rem
 
 #### 2. **Açık Tema**
    - **Ana Renk**: #6482AD
@@ -43,12 +45,12 @@
      - **Paragraflar ve Ana Metin**: #F5EDED
 
 #### 4. **Button ve Link Stilleri**
-   - **Border Radius**: 8px (daha yumuşak ve modern görünüm)
-   - **Padding (Buttonlar için)**: 12px 24px
+   - **Border Radius**: 0.5rem (daha yumuşak ve modern görünüm)
+   - **Padding (Buttonlar için)**: 0.75rem 1.5rem
    - **Transition**: Tüm hover ve focus animasyonları için 0.3s ease
 
 #### 5. **Kart ve Bölüm Tasarımı**
    - **Açık Tema Kart Arka Plan**: #E2DAD6
    - **Koyu Tema Kart Arka Plan**: #481E14
-   - **Kartların İçerik Boşluğu**: 16px
+   - **Kartların İçerik Boşluğu**: 1rem
    - **Kart Kenarlığı**: 1px solid (temaya uygun renk ile)
