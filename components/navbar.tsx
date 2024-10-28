@@ -26,13 +26,13 @@ export default function NavbarComp() {
             width={40}
             alt="logo"
           />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap">Furkan İBİŞ</span>
+          <h1 className="self-center text-3xl font-semibold whitespace-nowrap">Furkan İBİŞ</h1>
         </Link>
 
         {/* Mobil menü açma butonu */}
         <button 
           onClick={toggleMenu}
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2" 
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2" 
           aria-expanded={menuVisible}
           aria-controls="navbar-default"
         >
@@ -46,7 +46,7 @@ export default function NavbarComp() {
         <div className="hidden md:flex items-center space-x-8 list-none">
           {menuItems.map(({ title, href }) => (
             <li key={title}>
-              <Link href={href} className="block py-2 px-3 rounded hover:bg-gray-100">
+              <Link href={href} className="block py-2 px-3 rounded text-lg">
                 {title}
               </Link>
             </li>
@@ -56,11 +56,11 @@ export default function NavbarComp() {
 
       {/* Mobil menü */}
       {menuVisible && (
-        <div className="absolute w-full left-0 top-full z-10 bg-white shadow-md md:hidden">
+        <div className="absolute w-full left-0 top-full z-10 shadow-md md:hidden">
           <ul className="flex flex-col p-4 border rounded-lg list-none">
             {menuItems.map(({ title, href }) => (
               <li key={title}>
-                <Link href={href} className="block py-2 px-3 rounded hover:bg-gray-100">
+                <Link href={href} className="block py-2 px-3 rounded">
                   {title}
                 </Link>
               </li>
