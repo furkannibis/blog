@@ -2,19 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2.25rem;
+  letter-spacing: 0.031rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.875rem;
+  letter-spacing: 0.031rem;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 1.5rem;
+  letter-spacing: 0.031rem;
+  line-height: 1.2;
+}
+
+p, 
+.small-text {
+  font-size: 1rem;
+  letter-spacing: 0.0125rem;
+}
+
+.small-text {
+  font-size: 0.75rem;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+      --main-color: #88AB8E;
+      --secondary-color: #AFC8AD;
+      --background-color: #F2F1EB;
+      --neutral-color: #EEE7DA;
+      --heading-color: #AFC8AD;
+      --paragraph-color: #88AB8E;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+      --main-color: #00ADB5;
+      --secondary-color: #EEEEEE;
+      --background-color: #222831;
+      --neutral-color: #393E46;
+      --heading-color: #EEEEEE;
+      --paragraph-color: #00ADB5;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  background-color: var(--background-color);
+  color: var(--paragraph-color);
 }
+
+h1, h2, h3 {
+  color: var(--heading-color);
+}
+
+a,
+button {
+  color: var(--main-color);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+a:hover, 
+button:hover {
+  color: var(--secondary-color);
+}
+
+.card {
+  background-color: var(--neutral-color);
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border: 1px solid var(--main-color);
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
