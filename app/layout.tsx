@@ -19,13 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-      </head>
-      <body>
+      <body className={arima.className}>
         <Header />
         {children}
       </body>
-    </html>
   );
 }

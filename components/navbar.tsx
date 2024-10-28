@@ -2,7 +2,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { useTheme } from "@/app/functions";
 import Link from "next/link";
-import { title } from "process";
 
 export default function NavbarComp() {
   const [menuVisible, setMenuVisible] = useState(false);
