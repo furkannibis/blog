@@ -1,5 +1,8 @@
-export default function Projects(
-    { children }: { children: React.ReactNode }
-) {
-    return <div>{children}</div>
-  }
+export default function ProjectsPage() {
+    return (
+        <div>
+            <h1>Projects Sayfası</h1>
+            <p>Blog içeriği burada gösterilecek.</p>
+        </div>
+    );
+}

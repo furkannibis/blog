@@ -1,4 +1,4 @@
-export default function Vulnhub({
+export default function VulnhubPage({
     children,
   }: {
     children: React.ReactNode

@@ -1,7 +1,8 @@
-export default function Blog(
-    { children }: { children: React.ReactNode }
-) {
+export default function BlogPage() {
     return (
-        <div>{children}</div>
+        <div>
+            <h1>Blog Sayfası</h1>
+            <p>Blog içeriği burada gösterilecek.</p>
+        </div>
     );
-  }
+}

@@ -1,4 +1,4 @@
-export default function Certification({
+export default function CertificationPage({
     children,
   }: {
     children: React.ReactNode

@@ -1,4 +1,4 @@
-export default function Connection({
+export default function ConnectionPage({
     children,
   }: {
     children: React.ReactNode
