@@ -1,16 +1,25 @@
-import type { Metadata } from 'next'
+/* eslint-disable tailwindcss/enforces-negative-arbitrary-values */
+import type { Metadata, Viewport } from 'next'
+// import { Inter } from 'next/font/google'
 import localFont from 'next/font/local'
-import { site, siteBaseMetadata } from '@/config/site';
-import { cn } from '@/lib/utils';
-import Image from 'next/image'
-
-import { ProgressProvider } from '@/components/progress-provider';
-import { ThemeProvider } from '@/components/theme-provider'
-import { Noise } from '@/components/gradient-bg';
-import { TailwindIndicator } from '@/components/tailwin-indicator';
-
 import { Analytics } from '@vercel/analytics/react'
+
+import '../styles/globals.css'
+
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Toaster } from 'sonner'
+
+import { site, siteBaseMetadata } from '@/config/site'
+import { cn } from '@/lib/utils'
+import { Noise } from '@/components/gradient-bg'
+import { ProgressProvider } from '@/components/progress-provider'
+import { TailwindIndicator } from '@/components/tailwind-indicator'
+import { ThemeProvider } from '@/components/theme-provider'
+
+// const inter = Inter({
+//     variable: '--font-inter',
+//     subsets: ['latin'],
+// })W
 
 const geist = localFont({
     src: [
@@ -62,7 +71,6 @@ const geist = localFont({
     ],
 })
 
-
 export const metadata: Metadata = {
     ...siteBaseMetadata,
     metadataBase: new URL(site.url),
@@ -72,7 +80,7 @@ export const metadata: Metadata = {
     },
 }
 
-export const viewport = {
+export const viewport: Viewport = {
     themeColor: [
         {
             media: '(prefers-color-scheme: light)',
@@ -94,14 +102,42 @@ export default function RootLayout({
         <html lang='en-US'>
             <body className={cn(geist.className)}>
                 <Analytics />
-                {/* <SpeedInsights/> */}
+                <SpeedInsights />
                 <ThemeProvider attribute='class' defaultTheme='dark' enableSystem={false}>
                     <ProgressProvider>
-                        <Image width={1400} height={550} className='absolute left-[50%] top-0 -z-10 -translate-x-1/2' src='/images/gradient-background.webp' alt='' role='presentation' priority />
+                        {/* <Image
+                            width={1400}
+                            height={550}
+                            className='absolute left-[50%] top-0 -z-10 -translate-x-1/2'
+                            src='/images/gradient-background-top-blue.png'
+                            alt=''
+                            role='presentation'
+                            priority
+                        /> */}
+
+                        {/* <Image
+                            width={1400}
+                            height={550}
+                            className='absolute left-[20%] top-0 -z-10 -translate-x-1/2'
+                            src='/images/gradient-background-top.png'
+                            alt=''
+                            role='presentation'
+                            priority
+                        />     */}
+
                         <Noise />
+
                         {children}
-                        <div className="relative">
-                            <Image width={1400} height={550} className='absolute bottom-0 left-1/2 -z-10 -translate-x-1/2' src='/images/gray_image.webp' alt='' role='presentation' priority />
+                        <div className='relative'>
+                            {/* <Image
+                                width={1400}
+                                height={550}
+                                className='absolute bottom-0 left-1/2 -z-10 -translate-x-1/2'
+                                src='/images/gray_image.png'
+                                alt=''
+                                role='presentation'
+                                priority
+                            /> */}
                         </div>
                         <Toaster />
                         <TailwindIndicator />
@@ -109,5 +145,5 @@ export default function RootLayout({
                 </ThemeProvider>
             </body>
         </html>
-    );
+    )
 }

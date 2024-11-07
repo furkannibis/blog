@@ -156,7 +156,7 @@ pre.shiki .line {
 pre.shiki .highlighted {
     width: 100%;
     display: inline-block;
-    background-color: theme('colors.primary.DEFAULT / 10%');
+    /* background-color: theme('-primary.DEFAULT / 10%'); */
 }
 
 .prose pre {
