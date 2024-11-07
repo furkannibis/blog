@@ -22,12 +22,11 @@ export default function NotFound() {
                 className='relative flex flex-col items-center justify-center gap-8 px-4 text-center'>
                 <div className='relative'>
                     <Image
-                        width={400}
-                        height={400}
                         className='animate-pulse'
                         src='/images/default.webp'
                         alt='Triangle pattern'
                         role='presentation'
+                        fill
                         priority
                     />
                     <motion.div
