@@ -9,8 +9,7 @@ import { NavbarMobile } from './navbar-mobile';
 function Logo(){
     return (
         <Link href='/' className='mr-8 flex items-center gap-2' aria-label='Homepage'>
-            <Image src='/images/favicon/icon.webp' height={60} width={60} alt='logo' className='hidden'/>
-            {/* <Image src='/images/favicon/icon.webp' height={60} width={60} alt='logo' className='hidden'/> */}
+            <Image src='/images/logo.webp' height={24} width={24} alt='logo'/>
         </Link>
     );
 } 

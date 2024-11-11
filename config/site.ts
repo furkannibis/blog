@@ -11,7 +11,7 @@ type Site = {
 export const site: Site = {
     title: 'Furkan İBİŞ',
     description: 'Practitioner Applying Cybersecurity and Data Engineering Principles.',
-    url: process.env.NODE_ENV === 'production' ? 'https://emrklyci.dev' : 'http://localhost:3000',
+    url: process.env.NODE_ENV === 'production' ? 'https://furkannibis.dev' : 'http://localhost:3000',
     logo: '/images/logo.webp'
 }
 

@@ -53,9 +53,9 @@ export function Hero() {
                                     </span>
                                 </div>
                                 <h2 className='title-2 bg-clip-text text-center text-xl  font-semibold text-transparent sm:text-2xl md:text-3xl lg:text-6xl'>
-                                    “The happiness of your life depends upon
+                                    “the quieter you become,
                                     <br />
-                                    the quality of your thoughts.“ <br />
+                                    the more you are able to hear.“ <br />
                                 </h2>
                         </div>
 
@@ -96,13 +96,11 @@ export function Hero() {
                                 </Button>
                                 <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
                                     <a href={'/emre_kalayci.pdf'} target='_blank' rel='noreferrer'>
-                           
                                         resume
                                     </a>
                                 </Button>
                             </h2>
                         </div>
-                        {/* CTA */}
                         <Button variant={'ghost'} className='-ml-4' asChild>
                             <Link href='/about'>
                                 <p className='mr-2 font-serif'>I will tell you who I am in thirty seconds.</p>
@@ -120,7 +118,6 @@ export function Hero() {
 
 function Background() {
     return (
-        // eslint-disable-next-line tailwindcss/no-contradicting-classname
         <div className='absolute inset-0 -z-10 size-full bg-[linear-gradient(to_right,#ffffff11_1px,transparent_1px),linear-gradient(to_bottom,#ffffff11_1px,transparent_1px)] bg-[size:70px_70px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)]'></div>
     )
 }

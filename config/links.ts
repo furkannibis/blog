@@ -141,6 +141,7 @@ export const SocialLinks: SocialLinks = [
 type ContactLinks = {
     name: string
     mailto: string
+    email: string
     icon: keyof typeof Icons
     logo: string
 }[]
@@ -149,12 +150,14 @@ export const ContactLinks: ContactLinks = [
     {
         name: 'Personal',
         mailto: 'ibis.furkann@gmail.com',
+        email: 'ibis.furkann@gmail.com',
         icon: 'email',
         logo: '/images/favicon/icon.webp',
     },
     {
         name: 'Website',
-        mailto: 'furkanibis.dev',
+        mailto: 'furkannibis.dev',
+        email: 'ibis.furkann@gmail.com',
         icon: 'email',
         logo: '/images/favicon/icon.webp',
     },

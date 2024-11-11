@@ -18,4 +18,4 @@ export enum UtmMediums {
     Contact = 'contact',
 }
 
-export type UtmSource = 'emrklyci.dev'
+export type UtmSource = 'furkannibis.dev'

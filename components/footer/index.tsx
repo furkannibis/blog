@@ -27,7 +27,7 @@ export function Footer() {
                     {ContactLinks.map((link) => (
                         <Link
                             key={link.name}
-                            href={`mailto:${link.mailto}`}
+                            href={`mailto:${link.email}`}
                             className='text-muted-foreground transition-colors duration-150 hover:text-accent-foreground'>
                             {link.mailto}
                         </Link>
