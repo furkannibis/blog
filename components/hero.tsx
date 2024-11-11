@@ -39,24 +39,24 @@ export function Hero() {
                 <div className='flex flex-col'>
                     <div className='flex flex-col items-center'>
                         <div className='flex flex-col'>
-                                <h1 className='title-1 mb-2 bg-clip-text  text-center text-3xl font-bold text-transparent sm:text-4xl md:text-6xl'>
-                                    Furkan IBIS
-                                </h1>
-                                <div className='mb-10 flex flex-row items-center justify-center gap-2'>
-                                    <span className='relative flex size-2'>
-                                        <span className='absolute inline-flex size-full animate-ping rounded-full bg-green-400 opacity-75'></span>
-                                        <span className='relative inline-flex size-2 rounded-full bg-green-600'></span>
-                                    </span>
+                            <h1 className='title-1 mb-2 bg-clip-text  text-center text-3xl font-bold text-transparent sm:text-4xl md:text-6xl'>
+                                Furkan IBIS
+                            </h1>
+                            <div className='mb-10 flex flex-row items-center justify-center gap-2'>
+                                <span className='relative flex size-2'>
+                                    <span className='absolute inline-flex size-full animate-ping rounded-full bg-green-400 opacity-75'></span>
+                                    <span className='relative inline-flex size-2 rounded-full bg-green-600'></span>
+                                </span>
 
-                                    <span className=' text-md font-bold text-green-500 md:text-sm'>
-                                        Available for Work
-                                    </span>
-                                </div>
-                                <h2 className='title-2 bg-clip-text text-center text-xl  font-semibold text-transparent sm:text-2xl md:text-3xl lg:text-6xl'>
-                                    “the quieter you become,
-                                    <br />
-                                    the more you are able to hear.“ <br />
-                                </h2>
+                                <span className=' text-md font-bold text-green-500 md:text-sm'>
+                                    Available for Work
+                                </span>
+                            </div>
+                            <h2 className='title-2 bg-clip-text text-center text-xl  font-semibold text-transparent sm:text-2xl md:text-3xl lg:text-6xl'>
+                                “the quieter you become,
+                                <br />
+                                the more you are able to hear.“ <br />
+                            </h2>
                         </div>
 
                         <div className='my-6 space-y-2'>
@@ -64,34 +64,41 @@ export function Hero() {
                                 eng & dev @
                                 <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
                                     <Link
-                                        href={UtmUrl('', {
+                                        href={UtmUrl('https://leetcode.com/u/furkannibis/', {
                                             source: 'furkannibis.dev',
                                             medium: UtmMediums.Homepage,
                                             content: 'hero',
                                         })}>
-               
-                                        bets
+                                        leetcode
                                     </Link>
                                 </Button>
                                 <div className='flex items-center'>
                                     <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
                                         <Link
-                                            href={UtmUrl('https://github.com/furkannibis', {
+                                            href={UtmUrl('https://www.hackerrank.com/profile/ibis_furkann', {
                                                 medium: UtmMediums.Homepage,
                                                 content: 'hero',
                                             })}>
-                        
-                                            github{' '}
+                                            hackerrank
                                         </Link>
                                     </Button>
                                 </div>
                                 <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
                                     <Link
-                                        href={UtmUrl('https://lichess.org/@/emrklyci', {
+                                        href={UtmUrl('https://www.codewars.com/users/ibis.furkann', {
                                             medium: UtmMediums.Homepage,
                                             content: 'hero',
                                         })}>
-                                        lichess{' '}
+                                        codewars
+                                    </Link>
+                                </Button>
+                                <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
+                                    <Link
+                                        href={UtmUrl('https://lichess.org/@/nnakruf', {
+                                            medium: UtmMediums.Homepage,
+                                            content: 'hero',
+                                        })}>
+                                        lichess
                                     </Link>
                                 </Button>
                                 <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
