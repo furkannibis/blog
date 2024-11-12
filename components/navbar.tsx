@@ -69,34 +69,12 @@ export function Navbar() {
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
-
-                <NavigationMenuItem key='contacts-menu-item' className='nav-1'>
-                    <Link href={Routes.Contact} legacyBehavior passHref>
-                        <NavigationMenuLink
-                            active={pathname === Routes.Contact}
-                            className={navigationMenuTriggerStyle()}>
-                            <span>Contact</span>
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
                 <NavigationMenuItem key='command-item-0' className='nav-1'>
                     <Link href={Routes.Gallery} legacyBehavior passHref>
                         <NavigationMenuLink
                             active={pathname === Routes.Gallery}
                             className={navigationMenuTriggerStyle()}>
                             <span>Gallery</span>
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem key='command-item-1' className='nav-1'>
-                    <Link href={Routes.Archive} legacyBehavior passHref>
-                        <NavigationMenuLink
-                            active={pathname === Routes.Archive}
-                            className={navigationMenuTriggerStyle()}>
-                            <div className='flex flex-row items-center justify-center gap-1'>
-                                <span>Archive</span>
-                            </div>
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>

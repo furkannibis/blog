@@ -102,7 +102,7 @@ export function Hero() {
                                     </Link>
                                 </Button>
                                 <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
-                                    <a href={'/emre_kalayci.pdf'} target='_blank' rel='noreferrer'>
+                                    <a href={'/furkanibis.pdf'} target='_blank' rel='noreferrer'>
                                         resume
                                     </a>
                                 </Button>
