@@ -7,7 +7,7 @@ var BlogAuthors = [
     id: "Furkan",
     name: "Furkan \u0130B\u0130\u015E",
     url: "https://furkannibis.dev",
-    image: "/gallery/6.png"
+    image: "/gallery/6.webp"
   }
 ];
 
@@ -303,4 +303,4 @@ var contentlayer_config_default = makeSource({
 export {
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-5JQUPKE4.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-WRVYWE4K.mjs.map

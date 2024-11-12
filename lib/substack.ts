@@ -275,7 +275,7 @@ type SubstackPost = {
 
 export async function getSubstackPost(slug: string) {
     try {
-        const rawPost: SubstackPost = await fetch(`https://emrklyci.substack.com/api/v1/posts/${slug}`).then((res) =>
+        const rawPost: SubstackPost = await fetch(`https://ibisfurkan.substack.com/api/v1/posts/${slug}`).then((res) =>
             res.json(),
         )
 

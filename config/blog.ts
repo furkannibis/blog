@@ -3,7 +3,7 @@ export const BlogAuthors = [
         id: 'Furkan',
         name: 'Furkan İBİŞ',
         url: 'https://furkannibis.dev',
-        image: '/gallery/6.png',
+        image: '/gallery/6.webp',
     },
 ]
 

@@ -95,11 +95,6 @@ export const FooterLinkGroups: FooterLinkGroups = [
                 icon: 'contactPage',
                 title: 'Contact',
             },
-            {
-                href: Routes.Archive,
-                icon: 'archivePage',
-                title: 'Archive',
-            },
         ],
     },
 ]

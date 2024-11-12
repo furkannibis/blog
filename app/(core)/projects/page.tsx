@@ -6,8 +6,7 @@ import { Routes } from '@/config/routes'
 import ClientSideComponent from './client-side-component'
 
 const title = 'Projects'
-const description =
-    'Explore projects I have done in the past. Some projects were born out of my own personal need, while others were the result of collaborations with brilliant entrepreneurs motivated to turn ideas into reality.'
+const description = 'Açıklama Yaz'
 
 type Props = {
     params: Record<string, never>
