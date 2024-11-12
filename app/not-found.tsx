@@ -23,7 +23,7 @@ export default function NotFound() {
                 <div className='relative'>
                     <Image
                         className='animate-pulse'
-                        src='/images/default.webp'
+                        src='/images/patterns/triangle.webp'
                         alt='Triangle pattern'
                         role='presentation'
                         fill

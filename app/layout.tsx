@@ -16,11 +16,6 @@ import { ProgressProvider } from '@/components/progress-provider'
 import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { ThemeProvider } from '@/components/theme-provider'
 
-// const inter = Inter({
-//     variable: '--font-inter',
-//     subsets: ['latin'],
-// })W
-
 const geist = localFont({
     src: [
         {
@@ -105,39 +100,9 @@ export default function RootLayout({
                 <SpeedInsights />
                 <ThemeProvider attribute='class' defaultTheme='dark' enableSystem={false}>
                     <ProgressProvider>
-                        {/* <Image
-                            width={1400}
-                            height={550}
-                            className='absolute left-[50%] top-0 -z-10 -translate-x-1/2'
-                            src='/images/gradient-background-top-blue.png'
-                            alt=''
-                            role='presentation'
-                            priority
-                        /> */}
-
-                        {/* <Image
-                            width={1400}
-                            height={550}
-                            className='absolute left-[20%] top-0 -z-10 -translate-x-1/2'
-                            src='/images/gradient-background-top.png'
-                            alt=''
-                            role='presentation'
-                            priority
-                        />     */}
-
                         <Noise />
-
                         {children}
                         <div className='relative'>
-                            {/* <Image
-                                width={1400}
-                                height={550}
-                                className='absolute bottom-0 left-1/2 -z-10 -translate-x-1/2'
-                                src='/images/gray_image.png'
-                                alt=''
-                                role='presentation'
-                                priority
-                            /> */}
                         </div>
                         <Toaster />
                         <TailwindIndicator />
