@@ -65,7 +65,7 @@ export function Hero() {
                                 <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
                                     <Link
                                         href={UtmUrl('https://leetcode.com/u/furkannibis/', {
-                                            source: 'furkannibis.dev',
+                                            source: 'furkanibis.dev',
                                             medium: UtmMediums.Homepage,
                                             content: 'hero',
                                         })}>

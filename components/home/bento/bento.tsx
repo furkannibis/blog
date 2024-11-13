@@ -111,8 +111,8 @@ const BentoBox = () => {
                     <div className='overlay absolute inset-0 size-full bg-cover bg-center bg-no-repeat transition-opacity duration-200 xl:opacity-0' />
                     <CalendarEmbed />
                 </div>
-                <div className='j relative size-full aspect-square'>
-                    <div className='overlay rounded-3x1 absolute inset-0 size-full bg-cover bg-center bg-no-repeat transition-opacity duration-200 xl:opacity-0' />
+                <div className='j relative aspect-square'>
+                    <div className='overlay rounded-3x1  absolute inset-0  bg-cover bg-center bg-no-repeat' />
                     <Image
                         className='w-full  object-cover'
                         src={'/bento/bento-item-j.png'}

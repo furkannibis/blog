@@ -1,7 +1,7 @@
 import { UtmMediums } from '@/types/links'
 import { site } from '@/config/site'
 
-export const UtmSource = 'furkannibis.dev'
+export const UtmSource = 'furkanibis.dev'
 
 export function absoluteUrl(url: string) {
     if (url.startsWith('/')) url = url.slice(1)

@@ -147,13 +147,13 @@ export const ContactLinks: ContactLinks = [
         mailto: 'ibis.furkann@gmail.com',
         email: 'ibis.furkann@gmail.com',
         icon: 'email',
-        logo: '/images/favicon/icon.webp',
+        logo: '/gallery/6.webp',
     },
     {
         name: 'Website',
-        mailto: 'furkannibis.dev',
+        mailto: 'furkanibis.dev',
         email: 'ibis.furkann@gmail.com',
         icon: 'email',
-        logo: '/images/favicon/icon.webp',
+        logo: '/gallery/6.webp',
     },
 ]

@@ -63,9 +63,9 @@ export type ProjectType = {
 
 export const project: ProjectType[] = [
     {
-        title: 'furkannibis.dev',
+        title: 'furkanibis.dev',
         description: ['Taiwind, React, TypeScript, Next.js, MDX, shadcn/ui, Magic UI'],
-        link: 'https://www.furkannibis.dev'
+        link: 'https://www.furkanibis.dev'
     },
     {
         title: 'CipherPass',

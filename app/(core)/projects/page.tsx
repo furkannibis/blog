@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from 'next'
 import { absoluteUrl } from '@/utils/urls'
 
+import { site } from '@/config/site'
 import { Routes } from '@/config/routes'
 
 import ClientSideComponent from './client-side-component'
@@ -28,6 +29,15 @@ export async function generateMetadata(_: Props, parent: ResolvingMetadata): Pro
             url: absoluteUrl(Routes.Projects),
             title,
             description,
+            images: [
+                {
+                    url: `${site.url}/images/og/about.png`,
+                    width: 1200,
+                    height: 630,
+                    alt: description,
+                    type: 'image/png',
+                },
+            ],
         },
         twitter: {
             ...previousTwitter,

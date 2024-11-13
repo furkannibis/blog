@@ -157,8 +157,8 @@ export const images: ImageType[][] = [
         { src: 'https://pbs.twimg.com/media/GK-cz4kXcAAJFlB?format=jpg&name=360x360', alt: 'Image 87' },
     ],
     [
-        { src: 'https://pbs.twimg.com/media/GOXwpTWWoAAm319?format=jpg&name=small', alt: 'Image 88' },
-        { src: 'https://pbs.twimg.com/media/GOXKKj-WsAAHm9-?format=jpg&name=small', alt: 'Image 89' },
+        // { src: 'https://pbs.twimg.com/media/GOXwpTWWoAAm319?format=jpg&name=small', alt: 'Image 88' },   
+        // { src: 'https://pbs.twimg.com/media/GOXKKj-WsAAHm9-?format=jpg&name=small', alt: 'Image 89' },
         { src: 'https://pbs.twimg.com/media/F0XHJjxagAIglwV?format=jpg&name=900x900', alt: 'Image 90' },
     ],
     [

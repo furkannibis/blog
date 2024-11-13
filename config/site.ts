@@ -11,20 +11,20 @@ type Site = {
 export const site: Site = {
     title: 'Furkan İBİŞ',
     description: 'Practitioner Applying Cybersecurity and Data Engineering Principles.',
-    url: process.env.NODE_ENV === 'production' ? 'https://furkannibis.dev' : 'http://localhost:3000',
+    url: process.env.NODE_ENV === 'production' ? 'https://furkanibis.dev' : 'http://localhost:3000',
     logo: '/images/logo.webp'
 }
 
 export const siteBaseMetadata: Metadata = {
     title: site.title,
     description: site.description,
-    applicationName: 'furkannibis.dev',
+    applicationName: 'furkanibis.dev',
     referrer: 'origin-when-cross-origin',
     keywords: ['Furkan İBİŞ', 'Siber Güvenlik', 'Sızma Testi', 'Cyber Security', 'Penetration Testing', 'Data Analyst', 'Veri Analizi', 'Makine Öğrenimi', 'Machine Learning'],
     authors: [
         {
             name: 'Furkan İBİŞ',
-            url: 'https://furkannibis.dev'
+            url: 'https://furkanibis.dev'
         }
     ],
     creator: 'Furkan İBİŞ',
@@ -43,11 +43,11 @@ export const siteBaseMetadata: Metadata = {
         locale: 'en-US',
         images: [
             {
-                url: `${site.url}/images/default.webp`,
+                url: `${site.url}/images/og/default.png`,
                 width: 1920,
                 height: 1080,
                 alt: site.description,
-                type: 'image/webp'
+                type: 'image/png'
             }
         ]
     },
@@ -87,7 +87,7 @@ export const siteBaseMetadata: Metadata = {
     alternates: {
         canonical: site.url,
         languages: {
-            'en-US': 'https://furkannibis.dev/en-US'
+            'en-US': 'https://furkanibis.dev/en-US'
         },
         types: {
             'application/rss+xml': `${site.url}/rss.xml`,

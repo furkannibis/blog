@@ -78,7 +78,7 @@ export default function Page() {
                     return (
                         <Link
                             key={link.name}
-                            href={`mailto:${link.mailto}`}
+                            href={`mailto:${link.email}`}
                             className='group flex flex-row items-center space-x-4 rounded-lg border bg-muted p-4 transition-all duration-150 hover:bg-accent'>
                             <Image
                                 src={link.logo}

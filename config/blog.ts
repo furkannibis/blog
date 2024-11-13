@@ -2,7 +2,7 @@ export const BlogAuthors = [
     {
         id: 'Furkan',
         name: 'Furkan İBİŞ',
-        url: 'https://furkannibis.dev',
+        url: 'https://furkanibis.dev',
         image: '/gallery/6.webp',
     },
 ]
