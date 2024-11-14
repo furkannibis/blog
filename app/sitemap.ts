@@ -20,7 +20,6 @@ const sitemap = async () => {
         Routes.Bookmarks,
         Routes.Contact,
         Routes.Gallery,
-        Routes.Archive,
 
         ...blogPages,
         ...cmsPages,
