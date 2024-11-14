@@ -12,6 +12,7 @@ export const images: ImageType[][] = [
     ],
     [
         { src: 'https://pbs.twimg.com/media/GOA31xPWcAAGoAC?format=jpg&name=medium', alt: 'Image 4' },
+        { src: 'https://pbs.twimg.com/media/Gb2-xAcbwAIL8I5?format=jpg&name=large', alt: 'Image 5' },
         { src: 'https://pbs.twimg.com/media/GQ1thMkWwAApGeu?format=jpg&name=small', alt: 'Image 6' },
     ],
     [
@@ -25,7 +26,8 @@ export const images: ImageType[][] = [
         { src: 'https://pbs.twimg.com/media/GQ3PtygXgAAOm1_?format=jpg&name=small', alt: 'Image 12' },
     ],
     [
-        { src: 'https://pbs.twimg.com/media/GQhh-i5WYAAQt1K?format=jpg&name=medium', alt: 'Image 13' },
+        
+        { src: 'https://pbs.twimg.com/media/Gbzl5-hbwAAW2Af?format=jpg&name=large', alt: 'Image 13' },
         { src: 'https://pbs.twimg.com/media/GRKF7gjXQAAwTo8?format=jpg&name=900x900', alt: 'Image 14' },
         { src: 'https://pbs.twimg.com/media/GRJqdUGXEAEgs8U?format=jpg&name=small', alt: 'Image 15' },
     ],
@@ -157,9 +159,9 @@ export const images: ImageType[][] = [
         { src: 'https://pbs.twimg.com/media/GK-cz4kXcAAJFlB?format=jpg&name=360x360', alt: 'Image 87' },
     ],
     [
-        // { src: 'https://pbs.twimg.com/media/GOXwpTWWoAAm319?format=jpg&name=small', alt: 'Image 88' },   
-        // { src: 'https://pbs.twimg.com/media/GOXKKj-WsAAHm9-?format=jpg&name=small', alt: 'Image 89' },
-        { src: 'https://pbs.twimg.com/media/F0XHJjxagAIglwV?format=jpg&name=900x900', alt: 'Image 90' },
+        { src: 'https://pbs.twimg.com/media/FAEJj6pWYAI-EV7?format=jpg&name=medium', alt: 'Image 88' },   
+        { src: 'https://pbs.twimg.com/media/GbDb4yWW0AAFYBr?format=jpg&name=medium', alt: 'Image 89' },
+        { src: 'https://pbs.twimg.com/media/GQhh-i5WYAAQt1K?format=jpg&name=medium', alt: 'Image 90' },
     ],
     [
         { src: 'https://pbs.twimg.com/media/GB-X0d8WIAAFISH?format=jpg&name=small', alt: 'Image 91' },

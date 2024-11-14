@@ -8,7 +8,7 @@ import { PageTitle } from '@/components/page-title'
 import { ProjectCollabCard } from '@/components/project-collab-card'
 
 const title = 'Articles'
-const description = 'Açıklama Yaz.'
+const description = 'You can access Furkan\'s articles here. The articles will generally be related to cybersecurity, penetration testing and data science.'
 
 type Props = {
     params: Record<string, never>

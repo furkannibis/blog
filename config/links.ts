@@ -44,7 +44,6 @@ export const HeaderLinks: HeaderLinks = [
         href: Routes.Gallery,
         text: 'Gallery',
     },
-    { icon: 'archivePage', href: Routes.Archive, text: 'Archive' },
 ]
 
 type FooterLinkGroups = {

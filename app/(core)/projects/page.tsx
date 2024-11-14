@@ -31,7 +31,7 @@ export async function generateMetadata(_: Props, parent: ResolvingMetadata): Pro
             description,
             images: [
                 {
-                    url: `${site.url}/images/og/about.png`,
+                    url: `${site.url}/images/og/projects.png`,
                     width: 1200,
                     height: 630,
                     alt: description,

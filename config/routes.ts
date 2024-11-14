@@ -1,6 +1,5 @@
 export const Routes = {
     Home: '',
-    Archive: '/archive',
     Articles: '/articles',
     Blogs: '/blogs',
     Contact: '/contacts',
