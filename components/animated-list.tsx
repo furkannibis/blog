@@ -10,21 +10,42 @@ interface Item {
     color: string
     time: string
 }
-
+let date = new Date().getFullYear();
 let notifications = [
     {
         name: 'Born',
         description: 'March 28',
-        time: '25 years ago',
+        time: `${date - 2000} Years Ago`,
         icon: '👶🏻',
         color: '#F9ED69',
     },
     {
+        name: 'Start Kick-boxing',
+        description: 'I\'ll be Tyson, I mean I\'ll almost be Tyson',
+        time: `${date - 2015} Years Ago`,
+        icon: '🥊',
+        color: '#000',
+    },
+    {
+        name: 'Create Cyber Security Community',
+        description: 'There will be some deep magic going on.',
+        time: `${date - 2022} Years Ago`,
+        icon: '🦊',
+        color: '#F2A325'
+    },
+    {
         name: 'Started University',
         description: 'Bachelor of Engineering',
-        time: '7 years ago',
+        time: `${date - 2018} Years Ago`,
         icon: '🎓',
         color: '#F08A5D',
+    },
+    {
+        name: 'Started Cyber Security Career',
+        description: 'Oh my god, I\'m using Kali Linux...',
+        time: `${date - 2021} Years Ago`,
+        icon: '🐉',
+        color: '#0000FF',
     },
 ]
 
