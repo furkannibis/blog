@@ -52,7 +52,7 @@ const WakatimeGraph = ({ omitLanguages = [] }: Props) => {
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        fetch('https://wakatime.com/share/@furkannibis/76b06cdf-12d1-45cf-beee-c5c9de829564.json')
+        fetch('https://wakatime.com/share/@furkannibis/e20fd8de-2196-401e-a12f-168e3b676f11.json')
             .then((response) => {
                 if (!response.ok) throw new Error('Failed to fetch data')
                 return response.json()
