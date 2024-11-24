@@ -61,7 +61,6 @@ export function Hero() {
 
                         <div className='my-6 space-y-2'>
                             <h2 className='flex flex-wrap items-center justify-center gap-4 text-xs font-medium leading-8 md:text-xs'>
-                                eng & dev @
                                 <Button variant='secondary' size={'sm'} className='border bg-muted px-2' asChild>
                                     <Link
                                         href={UtmUrl('https://leetcode.com/u/furkannibis/', {
