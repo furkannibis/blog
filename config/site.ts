@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import { Metadata } from "next";
 
 type Site = {
