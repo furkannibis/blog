@@ -17,7 +17,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
                     {column.map((image, idx) => (
                         <BlurFade key={image.src} delay={0.25 + idx * 0.05} inView>
                             <div key={image.src}>
-                                <p>{`Image ${idx}`}</p>
+                                {/* <p>{`Image ${idx}`}</p> */}
                                 <Image
                                     className='h-auto max-w-full rounded-lg '
                                     src={image.src}
@@ -26,7 +26,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
                                     height={500}
                                     priority
                                 />
-                                {/* <span>{image.alt}</span> */}
+                                <span>{image.alt}</span>
                             </div>
                         </BlurFade>
                     ))}
