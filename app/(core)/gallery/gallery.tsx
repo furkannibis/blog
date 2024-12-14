@@ -26,7 +26,7 @@ const Gallery: React.FC<GalleryProps> = ({ images }) => {
                                     height={500}
                                     priority
                                 />
-                                <span>{image.alt}</span>
+                                {/* <span>{image.alt}</span> */}
                             </div>
                         </BlurFade>
                     ))}
