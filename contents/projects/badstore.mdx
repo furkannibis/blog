@@ -57,7 +57,9 @@ Aksi takdirde, yaptığınız uygulama kötü niyetli kişiler tarafından rapor
 
 
 ## Sızma Testi
+Ufak açıklamaların ardından sıra bilgi edinme kısmına geldi. Bir sistem üzerinde ne kadar fazla bilgi sahibi olursak, o kadar güçlü bir saldırı gerçekleştirebileceğimiz kaçınılmaz bir gerçektir. Bu yazıda saldırı türümüz SQL Injection olduğundan, hedef sistemin kullandığı **SQL dili** ve **versiyonu**, ayrıca hangi **veritabanı yönetim sistemi (DBMS)** kullanıldığı gibi bilgiler bizim için kritik öneme sahiptir.
 
+### Hedefimiz neleri kullanıyor?
 Sistemimizde hangi veritabanının çalıştığını öğrenmek için, **nmap** aracını kullanıyorum. Bunun için aşağıdaki komutu çalıştırıyorum:
 ```bash
 sudo nmap -sS -p- 192.168.1.116
@@ -66,9 +68,9 @@ sudo nmap -sS -p- 192.168.1.116
 
 Hedef sistemimizin MySQL kullandığını bir kenara not alıyoruz. Bu bilgi, sonraki adımlarda sorgularımızı özelleştirmek için oldukça önemli. 😊
 
-Ufak açıklamaların ardından sıra bilgi edinme kısmına geldi. Bir sistem üzerinde ne kadar fazla bilgi sahibi olursak, o kadar güçlü bir saldırı gerçekleştirebileceğimiz kaçınılmaz bir gerçektir. Bu yazıda saldırı türümüz SQL Injection olduğundan, hedef sistemin kullandığı **SQL dili** ve **versiyonu**, ayrıca hangi **veritabanı yönetim sistemi (DBMS)** kullanıldığı gibi bilgiler bizim için kritik öneme sahiptir.
-
 Bu bilgiler, SQL Injection saldırılarını özelleştirmemize ve daha etkili hale getirmemize olanak tanır.
+
+Sayfa içerisinde seach kısmına hiçbir şey vermeden yaptığım bir aratmada aşağıdaki görselle karşılaşıyorum.
 
 `1'='1' #` komutu, SQL Injection için en temel denemelerden biri olarak bu yazıdaki ilk komutumuz olacak. Yaptığım denemelerde, `searchquery` içerisine bu komutu yazdığımda, sayfanın tüm ürünlerini gönderdiğini keşfettim. Bunun nedeni, sorgunun aşağıdaki hale gelmesi:
 
@@ -95,7 +97,8 @@ Amacımız şu anlık sayfadaki ürünlerle ilgilenmek değil, ancak sayfanın i
 ```sql
 SELECT itemnum, sdesc, ldesc, price 
 FROM itemdb 
-WHERE '' IN (itemnum,sdesc,ldesc)
+WHERE '' IN (itemnum,sdesc,ldesc)Ufak açıklamaların ardından sıra bilgi edinme kısmına geldi. Bir sistem üzerinde ne kadar fazla bilgi sahibi olursak, o kadar güçlü bir saldırı gerçekleştirebileceğimiz kaçınılmaz bir gerçektir. Bu yazıda saldırı türümüz SQL Injection olduğundan, hedef sistemin kullandığı **SQL dili** ve **versiyonu**, ayrıca hangi **veritabanı yönetim sistemi (DBMS)** kullanıldığı gibi bilgiler bizim için kritik öneme sahiptir.
+
 ```
 sorgusunda sorgunun bize 4 adet kolon döndüğünü görüyoruz. Sıradaki hedefim bir UNION sorgusu olduğundan bu ufak bilgi bizim için önemli çünkü bildiğiniz üzere UNION 2 adet sorguyu birleştiren yegane bir komuttur ancak birleştirilen sorgulardan dönecek olan verilerin eşit kolon sayısına sahip olmaları gerekir.
 
@@ -111,6 +114,8 @@ Sorgumu bu mantığa göre güncelliyorum ve aşağıdaki komutu `searchquery`'y
 2. `SELECT 1,1,1,1` ifadesi ise **ufak bir deneme** diyebiliriz. 😊 Bu, UNION ile birleşen sorgunun çalışıp çalışmadığını test etmek için kullanılıyor.
 3. `#` işareti, kalan kısmı yorumlayarak sorgunun geri kalanını devre dışı bırakıyor.
 
+### Hedef sistemimiz, hangi MySQL versiyonunu kullanıyor ve tablolarını hangi veritabanında saklıyor?
+
 Bu sorguyu çalıştırarak, aşağıdaki gibi bir çıktı elde ediyorum:  
 
 ![](/20241214124021.png)
@@ -119,6 +124,9 @@ Bu sorguyu çalıştırarak, aşağıdaki gibi bir çıktı elde ediyorum:
 1'='0' UNION SELECT VERSION(),1,1,1 UNION SELECT DATABASE(),1,1,1#
 ```
 ![](/20241214125849.png)
+
+### Information Schema'yı kullanmayı denemek.
+
 Veritabanımızın adı **badstoredb** ve versiyonu **4.1.7-standard**. Ancak amacımız, ürünlerden ziyade kullanıcılarla ilgili bilgileri görmek olduğundan, bu bilgilerin saklandığı tabloyu bulmamız gerekiyor. Bunun için **information_schema** tablosunu kullanacağım ve sorgumu şu şekilde değiştiriyorum:
 
 ```sql
@@ -128,7 +136,12 @@ WHERE TABLE_SCHEMA = 'badstoredb' LIMIT 1),1,1,1 #
 ```
 Ancak ufak bir sorunumuz var:
 ![](/20241214131243.png)
+
+### Neden Information Schema'yı kullanamıyoruz?
+
 Yaptığımız sorgularda MySQL 4.1.7-standard versiyonunu kullandığımızı tespit etmiştik. Derin araştırmalarım sonucunda sorunun kaynağını buldum: Information Schema, MySQL 5.0.2 versiyonunda eklendi. Yani, kısaca şu an Information Schema'mız mevcut değil. 😔
+
+### Diğer tabloların isimlerini nasıl öğrenebiliriz?
 
 Peki, kullanıcıların tutulduğu veritabanı tablosunu nasıl öğreneceğiz? İnsanlığın sahip olduğu en mütevazı yeteneklerden biriyle: 'doğaçlama'!
 
@@ -137,6 +150,9 @@ Peki, kullanıcıların tutulduğu veritabanı tablosunu nasıl öğreneceğiz? 
 1'='0' UNION SELECT 1,1,1,1 FROM userdb #
 ```
 ![](/20241214180737.png)
+
+### UserDB tablosunun kolonları neler ve bunları nasıl öğrenebiliriz?
+
 Peki, tablo ismini öğrendik, ancak bu tablonun kolonlarının isimleri neler? Bunu öğrenmek için yine **information_schema**'ya başvurabilirdik tabii ki, ancak yukarıdaki problemi tekrar yaşamaktan başka bir şey kazanamazdık. Bu nedenle farklı bir yaklaşım düşünmeliydim.
 
 Denediğim bazı yöntemler şunlardı, ancak yalnızca **syntax hataları** aldım. Muhtemelen bu MySQL versiyonunda bu yöntemler de desteklenmiyor:
@@ -161,6 +177,8 @@ Bu sayede, ilk kolonumuzun adını bulmuş olduk. Daha sonra aynı yöntemi **em
 
 Bu sorgu, tabloyu ve kolonları doğrulamakla kalmadı, aynı zamanda verileri de elde etmemi sağladı. 🎯
 
+### Elde ettiğimiz kullanıcı tablosuyla neler yapabiliriz ve bu bilgileri kullanarak nasıl giriş yapabiliriz?
+
 Kullanıcılar arasında **admin** kullanıcısı dikkatimi çekti. Şimdi bu noktada çeşitli yöntemlerimiz var:
 
 1. **Hashlenmiş Şifreyi Çözmek:**  
@@ -168,9 +186,10 @@ Kullanıcılar arasında **admin** kullanıcısı dikkatimi çekti. Şimdi bu no
     
 2. **Brute Force veya Wordlist Tabanlı Hit:**  
     Şifreyi brute force veya yaygın şifre listelerini (wordlist) kullanarak çözebiliriz. Özellikle admin kullanıcılarının zayıf şifreler kullandığı senaryolarda etkili olabilir.
-    
 
 Ancak, bu yöntemlerin ötesinde daha **güzel bir yaklaşım** var: Eğer SQL Injection aracılığıyla doğrudan şifre kontrol mekanizmasını atlayabilirsek, hash çözmeye gerek kalmadan sisteme erişim sağlayabiliriz! 😊 Bu, hedef sistemin login mantığını manipüle ederek admin oturumunu doğrudan ele geçirmeyi içerir.
+
+### Login ekranını geçmek.
 
 Yukarıda anlattığım yapıya benzer bir yapı çalışıyor diye tahmin ediyorum. Ancak kısaca yeniden açıklamak gerekirse, kullanıcının girdiği **email** ve **parola**, backend tarafında aşağıdaki gibi bir yapıya yerleştiriliyor olmalı:
 ```python
@@ -196,12 +215,16 @@ SELECT * FROM userdb WHERE email='admin'
 ![](/20241214184645.png)
 Yukarıda görüldüğü gibi, SQL Injection yöntemiyle **admin** hesabına başarılı bir şekilde giriş yapmayı başardık. 🎯 Bu işlem, kullanıcı inputlarının kontrol edilmemesi ve sorgunun manipüle edilebilmesi nedeniyle mümkün oldu.
 
+### Hedef sistem dosyalarını elde etmek.
+
 Peki, daha ne kadar ileri gidebiliriz? MySQL'in **`LOAD_FILE`** isimli metodunu kullanarak hedef sistem içerisinde bilgi edinmek mümkün. Bu yöntem, veritabanı sunucusundaki dosyaları okuma imkanı sağlar. Örneğin, aşağıdaki komutla **`/etc/passwd`** dosyasından sistemle ilgili bilgileri elde edebiliriz:
 ```sql
 1' = '0' UNION SELECT 1,1,1,LOAD_FILE('/etc/passwd') #
 ```
 ![](/20241214185847.png)
 Bu komutla, sistem üzerinde **2 adet kullanıcının** bulunduğunu görebiliyoruz: **root** ve **nobody** kullanıcıları. 
+
+### Hataların kullanıcıya doğru bir şekilde sunulması neden bu kadar önemlidir?
 
 Badstore üzerinde daha önce hata aldığımızda karşımıza çıkan **badstore.cgi** dosyasının içeriğini merak ediyorum. Bu dosyada neler olduğunu öğrenmek için aşağıdaki sorguyu çalıştırıyorum:
 ```sql
@@ -215,7 +238,10 @@ Burada, elde ettiğimiz **badstore.cgi** dosyasının içeriğini inceliyor ve i
 
 ![](/20241214190808.png)
 
+### Hedef sistemin MySQL veritabanına bağlanmak.
+
 Hedef sistemimizin MySQL kullanıcı adı **root** ve parolası **secret** olarak tespit edildi. Bu bilgi, sisteme doğrudan erişim sağlamak için kritik bir adım! Ayrıca, backupların **/usr/local/apache/htdocs/backup/** klasörü altında bulunduğunu tespit ettik. Bu klasör, daha fazla bilgi edinmek ve potansiyel olarak hassas verilere erişmek için incelenebilir. Ancak, şu an hedef sisteme bağlanmayı tercih ediyorum.
+
 ```bash
 mysql -u root -p -h 192.168.1.116 --skip_ssl
 ```
@@ -225,6 +251,8 @@ mysql -u root -p -h 192.168.1.116 --skip_ssl
 Hedef cihazın MySQL'ine başarılı bir şekilde giriş yapmış olduk. 🎉 Artık, veritabanını keşfetmek ve potansiyel olarak kritik bilgilere erişmek için doğrudan sorgular çalıştırabiliriz.
 
 ![](/20241214191722.png)
+
+### Veritabanını küçük bir kopyasını oluşturmak. 😊
 
 Tüm bu veritabanı tablolarını tek tek incelemek yerine, artık veritabanının tüm verilerini kendi sistemime bir kopyasını oluşturmak ve bu sızma testini burada sonlandırmanın yeterli olacağını düşünüyorum.
 ```bash
